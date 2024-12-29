@@ -1,1 +1,1 @@
-# rock-paper-scissors
+# Rock, Paper, Scissors app for The Odin Project
