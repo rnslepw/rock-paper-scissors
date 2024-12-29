@@ -52,24 +52,41 @@ function playRound(humanChoice, computerChoice) {
   }
 }
 
-function hideButtons() {
-  const btns = document.querySelectorAll('button');
-  btns.forEach(btn => {
-    btn.style.display = "none";
-  });
+function hidePlayers() {
+  const boxContainer = document.querySelector('.box-container');
+  boxContainer.style.display = 'none';
+}
+
+function checkFinal(humanScore, computerScore, scoresheet) {
+  console.log('Click');
+  
+  const refresh = document.querySelector('.refresh');
+  const result = document.querySelector('.result');
+
+  refresh.addEventListener('click', (e) => {
+    window.location.reload();
+  })
+
+  if (humanScore >= 5) {
+    scoresheet.textContent = `You won! Final score: ${humanScore} - ${computerScore}`;
+    scoresheet.style.fontSize = "3rem";
+    refresh.style.display = "inline-block";
+    result.style.display = 'none';
+    hidePlayers();
+  } else if (computerScore >= 5) {
+    scoresheet.textContent = `You lost! Final score: ${humanScore} - ${computerScore}`;
+    scoresheet.style.fontSize = "3rem";
+    refresh.style.display = "inline-block";
+    result.style.display = 'none';
+    hidePlayers();
+  }
 }
 
 function updateScoresheet(humanScore, computerScore) {
   const scoresheet = document.querySelector('.scoresheet');
   scoresheet.textContent = `Human: ${humanScore} - Computer: ${computerScore}`;
 
-  if (humanScore >= 5) {
-    scoresheet.textContent = "You won!";
-    hideButtons();
-  } else if (computerScore >= 5) {
-    scoresheet.textContent = "Computer won(";
-    hideButtons();
-  }
+  checkFinal(humanScore, computerScore, scoresheet);
 }
 
 let humanScore = 0;
