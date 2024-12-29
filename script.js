@@ -9,63 +9,83 @@ function getComputerChoice() {
   }
 }
 
-function getHumanChoice() {
-  const humanChoice = prompt("Choose between Rock, Paper and Scissors");
-  return humanChoice.toLowerCase();
+function updateComputerChoice(computerChoice) {
+  const compChoice = document.querySelector('.compChoice')
+  compChoice.textContent = computerChoice[0].toUpperCase() + computerChoice.slice(1);
+}
+
+function playRound(humanChoice, computerChoice) {
+  updateComputerChoice(computerChoice);
+
+  const result = document.querySelector('.result');
+  
+  if (humanChoice === "rock") {
+    if (computerChoice === "paper") {
+      result.textContent = "You lose! Paper beats rock";
+      computerScore++;
+    } else if (computerChoice === "scissors") {
+      result.textContent = "You won! Rock beats scissors";
+      humanScore++;
+    } else {
+      result.textContent = "It's a draw. Try again!";
+    }
+  } else if (humanChoice === 'paper') {
+      if (computerChoice === "scissors") {
+        result.textContent = "You lose! Scissors beats paper";
+        computerScore++;
+      } else if (computerChoice === "rock") {
+        result.textContent = "You won! Paper beats scissors";
+        humanScore++;
+      } else {
+        result.textContent = "It's a draw. Try again!";
+      }
+  } else if (humanChoice === "scissors") {
+      if (computerChoice === "rock") {
+        result.textContent = "You lose! Rock beats scissors";
+        computerScore++;
+      } else if (computerChoice === "paper") {
+        result.textContent = "You won! Scissors beats paper";
+        humanScore++;
+      } else {
+        result.textContent = "It's a draw. Try again!";
+      }
+  }
+}
+
+function hideButtons() {
+  const btns = document.querySelectorAll('button');
+  btns.forEach(btn => {
+    btn.style.display = "none";
+  });
+}
+
+function updateScoresheet(humanScore, computerScore) {
+  const scoresheet = document.querySelector('.scoresheet');
+  scoresheet.textContent = `Human: ${humanScore} - Computer: ${computerScore}`;
+
+  if (humanScore >= 5) {
+    scoresheet.textContent = "You won!";
+    hideButtons();
+  } else if (computerScore >= 5) {
+    scoresheet.textContent = "Computer won(";
+    hideButtons();
+  }
 }
 
 let humanScore = 0;
 let computerScore = 0;
 
-function playGame() {
-  function playRound(humanChoice, computerChoice) {
-    console.log(`Human choice: ${humanChoice}`);
-    console.log(`Computer choice: ${computerChoice}`);
-  
-    if (humanChoice === "rock") {
-      if (computerChoice === "paper") {
-        console.log("You lose! Paper beats rock");
-        computerScore++;
-      } else if (computerChoice === "scissors") {
-        console.log("You won! Rock beats scissors");
-        humanScore++;
-      } else {
-        console.log("It's a draw. Try again!");
-      }
-    } else if (humanChoice === 'paper') {
-        if (computerChoice === "scissors") {
-          console.log("You lose! Scissors beats paper");
-          computerScore++;
-        } else if (computerChoice === "rock") {
-          console.log("You won! Paper beats scissors");
-          humanScore++;
-        } else {
-          console.log("It's a draw. Try again!");
-        }
-    } else if (humanChoice === "scissors") {
-        if (computerChoice === "rock") {
-          console.log("You lose! Rock beats scissors");
-          computerScore++;
-        } else if (computerChoice === "paper") {
-          console.log("You won! Scissors beats paper");
-          humanScore++;
-        } else {
-          console.log("It's a draw. Try again!");
-        }
-    }
-  }
+const btns = document.querySelectorAll("button");
 
-  for (let i = 0; i < 5; i++) {
-    const humanChoice = getHumanChoice();
+btns.forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const humanChoice = e.target.textContent.toLowerCase();
     const computerChoice = getComputerChoice();
 
     playRound(humanChoice, computerChoice);
-    
-    console.log(`Human score: ${humanScore}`);
-    console.log(`Computer score: ${computerScore}`);
-  }
-}
 
-playGame()
+    updateScoresheet(humanScore, computerScore);
+  })
+})
 
 
