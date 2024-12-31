@@ -10,7 +10,7 @@ function getComputerChoice() {
 }
 
 function updateComputerChoice(computerChoice) {
-  const compChoice = document.querySelector('.compChoice')
+  const compChoice = document.querySelector('.comp-choice')
   compChoice.textContent = computerChoice[0].toUpperCase() + computerChoice.slice(1);
 }
 
